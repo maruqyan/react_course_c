@@ -1,50 +1,49 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import Filter from '../Filter/Filter';
-import List from '../List/List';
-import AddItem from '../AddItem/AddItem';
+import Header from '../Header';
+import Filter from '../Filter';
+import List from '../List';
+import AddItem from '../AddItem';
 
 import './App.css';
 
-const arrData = [
-  {
-    id:1,
-    title:'ToDo list 1',
-    isDone:true,
-    important:false
-  },
 
-  {
-    id:2,
-    title:'ToDo list 2',
-    isDone:false,
-    important:true
-  },
+export default class App extends Component{
+  state = {
+    todoData:[
+      {
+        id: 1,
+        title: 'Սովորել React'
+      },
+      {
+        id: 2,
+        title: 'Կոֆե խմել'
+      },
+      {
+        id: 3,
+        title: 'Սովորել Node.js'
+      },
+      {
+        id: 4,
+        title: 'Հաց ուտել'
+      }
+    ]
+  };
 
-  {
-    id:3,
-    title:'ToDo list 3',
-    isDone:false,
-    important:false
-  },
-
-  {
-    id:4,
-    title:'ToDo list 4',
-    isDone:true,
-    important:true
+  onDeleteItem = (id) => {
+    const { todoData } = this.state;
+    const idx = todoData.findIndex((obj) => obj.id === id);
+    todoData.splice(idx,1);
+    this.setState(todoData);
   }
-]
-
-const App = () => {
-  return(
-    <div className="container">
-      <h1>ToDo List</h1>
-      <Filter />
-      <List listData={arrData} />
-      <AddItem />
-    </div>
-  )
+  render(){
+    return (
+      <div className="container">
+        <Header />
+        <Filter />
+        <List todoList={this.state.todoData} onDeleteItem={this.onDeleteItem} />
+        <AddItem />
+      </div>
+    );
+  }
 }
-
-export default App;
